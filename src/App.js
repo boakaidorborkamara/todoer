@@ -30,7 +30,11 @@ function App(props) {
       <h1>ToDoer</h1>
       <Form addTask={addTask} />
       <FilterButton />
-      <h2 id="list-heading">{task_counter} tasks remaining</h2>
+      {/* <h2 id="list-heading">{task_counter} tasks remaining</h2> */}
+      <h2 id="list-heading">
+        {task_counter ? task_counter + " " + "tasks remaining" : "No Task"}
+      </h2>
+
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
