@@ -11,6 +11,8 @@ const DATA = [
   { id: "todo-2", name: "Repeat", completed: false },
 ];
 
+console.log(DATA);
+
 root.render(<App tasks={DATA} />);
 
 // If you want to start measuring performance in your app, pass a function
