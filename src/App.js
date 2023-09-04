@@ -32,6 +32,12 @@ function App(props) {
   function editTask(id) {
     console.log("working");
     console.log(id);
+
+    tasks.map((task) => {
+      if (id === task.id) {
+        console.log(task);
+      }
+    });
   }
 
   const taskList = tasks.map((task) => (
