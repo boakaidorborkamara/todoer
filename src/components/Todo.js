@@ -17,7 +17,13 @@ function Todo(props) {
         </label>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn">
+        <button
+          type="button"
+          onClick={() => {
+            props.editTask(props.id);
+          }}
+          className="btn"
+        >
           Edit <span className="visually-hidden">Eat</span>
         </button>
         <button type="button" className="btn btn__danger">

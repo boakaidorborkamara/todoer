@@ -8,7 +8,6 @@ import FilterButton from "./components/FilterButton";
 function App(props) {
   const [tasks, setTask] = useState(props.tasks);
   const [task_counter, setTaskCounter] = useState("tasks.length");
-  console.log("ALL TASKS", tasks);
 
   function addTask(task_name) {
     let new_task = { id: uuidv4(), name: task_name.name, completed: false };
@@ -17,30 +16,22 @@ function App(props) {
   }
 
   function toggleTaskCompleted(id) {
-    console.log(id);
-    let modified_task;
-
     const updateTask = tasks?.map((task) => {
-      // console.log("Task", task);
       if (id === task.id) {
-        console.log(task.id);
-
-        // use object spread to make a new object
-        // whose `completed` prop has been inverted
-
+        // change the completed value for item which ID matches
         let isChecked = !task.completed ? true : false;
         task["completed"] = isChecked;
-        console.log("MODIFIED TASK", tasks);
-        console.log("ALL TASKS in update task fnx", tasks);
 
         return tasks;
       }
     });
 
-    // let change_item = [...tasks, modified_task];
-    // console.log("CHANGE", change_item);
     setTask(tasks);
-    // console.log(tasks[id]);
+  }
+
+  function editTask(id) {
+    console.log("working");
+    console.log(id);
   }
 
   const taskList = tasks.map((task) => (
@@ -50,6 +41,7 @@ function App(props) {
       id={task.id}
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
+      editTask={editTask}
     />
   ));
 
