@@ -7,7 +7,7 @@ import FilterButton from "./components/FilterButton";
 
 function App(props) {
   const [tasks, setTask] = useState(props.tasks);
-  const [task_counter, setTaskCounter] = useState("tasks.length");
+  const [task_counter, setTaskCounter] = useState(tasks.length);
 
   function addTask(task_name) {
     let new_task = { id: uuidv4(), name: task_name.name, completed: false };
@@ -19,14 +19,11 @@ function App(props) {
     const updateTask = tasks?.map((task) => {
       if (id === task.id) {
         // change the completed value for item which ID matches
-        let isChecked = !task.completed ? true : false;
-        task["completed"] = isChecked;
-
+        task["completed"] = !task.completed ? true : false;
+        setTask([...tasks]);
         return tasks;
       }
     });
-
-    setTask(tasks);
   }
 
   function editTask(id) {

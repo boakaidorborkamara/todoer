@@ -40,7 +40,11 @@ function Todo(props) {
           defaultChecked={props.completed}
           onChange={() => props.toggleTaskCompleted(props.id)}
         />
-        <label className="todo-label" htmlFor={props.id}>
+        {console.log("color change", props.completed)}
+        <label
+          className={props.completed ? "done-task" : "todo-label"}
+          htmlFor={props.id}
+        >
           {props.name}
         </label>
       </div>
