@@ -1,6 +1,9 @@
 import React from "react";
+import { useState } from "react";
 
 function Todo(props) {
+  const [isEditing, setIsEditing] = useState(false);
+
   const editingTemplate = (
     <form className="stack-small">
       <div className="form-group">
@@ -10,7 +13,13 @@ function Todo(props) {
         <input id={props.id} className="todo-text" type="text" />
       </div>
       <div className="btn-group">
-        <button type="button" className="btn todo-cancel">
+        <button
+          type="button"
+          onClick={() => {
+            setIsEditing(false);
+          }}
+          className="btn todo-cancel"
+        >
           Cancel
           <span className="visually-hidden">renaming {props.name}</span>
         </button>
@@ -36,7 +45,13 @@ function Todo(props) {
         </label>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn">
+        <button
+          type="button"
+          onClick={() => {
+            setIsEditing(true);
+          }}
+          className="btn"
+        >
           Edit <span className="visually-hidden">{props.name}</span>
         </button>
         <button
@@ -52,33 +67,7 @@ function Todo(props) {
 
   return (
     <li className="todo stack-small">
-      <div className="c-cb">
-        <input
-          id={props.id}
-          type="checkbox"
-          defaultChecked={props.completed}
-          onClick={() => {
-            props.toggleTaskCompleted(props.id);
-          }}
-        />
-        <label className="todo-label" htmlFor={props.id}>
-          {props.name}
-        </label>
-      </div>
-      <div className="btn-group">
-        <button
-          type="button"
-          onClick={() => {
-            props.editTask(props.id);
-          }}
-          className="btn"
-        >
-          Edit <span className="visually-hidden">Eat</span>
-        </button>
-        <button type="button" className="btn btn__danger">
-          Delete <span className="visually-hidden">Eat</span>
-        </button>
-      </div>
+      {isEditing ? editingTemplate : viewTemplate}
     </li>
   );
 }
