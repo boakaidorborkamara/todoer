@@ -3,21 +3,38 @@ import { useState } from "react";
 
 function Todo(props) {
   const [isEditing, setIsEditing] = useState(false);
+  const [modifiedTask, setModifieTask] = useState("");
+
+  function handleSave(e) {
+    e.preventDefault();
+    console.log(props.id);
+    props.editTask(props.id, modifiedTask);
+    setIsEditing(false);
+  }
+
+  function handleCancel(e) {
+    setIsEditing(false);
+  }
 
   const editingTemplate = (
-    <form className="stack-small">
+    <form className="stack-small" onSubmit={handleSave}>
       <div className="form-group">
         <label className="todo-label" htmlFor={props.id}>
           New name for {props.name}
         </label>
-        <input id={props.id} className="todo-text" type="text" />
+        <input
+          id={props.id}
+          className="todo-text"
+          type="text"
+          onChange={(e) => {
+            setModifieTask(e.target.value);
+          }}
+        />
       </div>
       <div className="btn-group">
         <button
           type="button"
-          onClick={() => {
-            setIsEditing(false);
-          }}
+          onClick={handleCancel}
           className="btn todo-cancel"
         >
           Cancel
