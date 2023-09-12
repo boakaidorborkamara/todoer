@@ -27,16 +27,11 @@ function App(props) {
   }
 
   function editTask(id, new_name) {
-    console.log("working");
-    console.log("ITEM ID", id);
-    console.log("new NAME", new_name);
-
     tasks.map((task) => {
       if (id === task.id) {
-        console.log("T", task);
         task.name = new_name;
+        setTask([...tasks]);
         console.log(tasks);
-        setTask([...tasks, task]);
       }
     });
   }
