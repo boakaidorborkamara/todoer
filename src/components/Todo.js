@@ -7,13 +7,16 @@ function Todo(props) {
 
   function handleSave(e) {
     e.preventDefault();
-    console.log(props.id);
     props.editTask(props.id, modifiedTask);
     setIsEditing(false);
   }
 
   function handleCancel(e) {
     setIsEditing(false);
+  }
+
+  function handleDelete(e) {
+    props.deleteTask(props.id);
   }
 
   const editingTemplate = (
@@ -78,7 +81,7 @@ function Todo(props) {
         <button
           type="button"
           className="btn btn__danger"
-          onClick={() => props.deleteTask(props.id)}
+          onClick={handleDelete}
         >
           Delete <span className="visually-hidden">{props.name}</span>
         </button>

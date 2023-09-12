@@ -36,6 +36,18 @@ function App(props) {
     });
   }
 
+  function deleteTask(id) {
+    console.log("deleted item id", id);
+    console.log(tasks);
+    tasks.map((task) => {
+      if (id === task.id) {
+        let index_of_item_to_delete = tasks.indexOf(task);
+        tasks.splice(index_of_item_to_delete, 1);
+        setTask([...tasks]);
+      }
+    });
+  }
+
   const taskList = tasks.map((task) => (
     <Todo
       name={task.name}
@@ -44,6 +56,7 @@ function App(props) {
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
       editTask={editTask}
+      deleteTask={deleteTask}
     />
   ));
 
