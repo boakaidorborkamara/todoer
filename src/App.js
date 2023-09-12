@@ -8,6 +8,13 @@ import FilterButton from "./components/FilterButton";
 function App(props) {
   const [tasks, setTask] = useState(props.tasks);
   const [task_counter, setTaskCounter] = useState(tasks.length);
+  const [filter_items, setFilterItems] = useState([
+    { id: 1, name: "All" },
+    { id: 2, name: "Complete" },
+    { id: 3, name: "Active" },
+  ]);
+
+  console.log(filter_items);
 
   function addTask(task_name) {
     let new_task = { id: uuidv4(), name: task_name.name, completed: false };
@@ -60,12 +67,15 @@ function App(props) {
     />
   ));
 
+  const filterButtonList = filter_items.map((item) => (
+    <FilterButton name={item.name} key={item.id} />
+  ));
+
   return (
     <div className="todoapp stack-large">
       <h1>ToDoer</h1>
       <Form addTask={addTask} />
-      <FilterButton />
-      {/* <h2 id="list-heading">{task_counter} tasks remaining</h2> */}
+      {filterButtonList}
       <h2 id="list-heading">
         {task_counter ? task_counter + " " + "tasks remaining" : "No Task"}
       </h2>
