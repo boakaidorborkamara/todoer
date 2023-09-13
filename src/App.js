@@ -7,14 +7,18 @@ import FilterButton from "./components/FilterButton";
 
 function App(props) {
   const [tasks, setTask] = useState(props.tasks);
+  const [active_tasks, setActiveTasks] = useState([]);
+  const [isAllSelected, setIsAllSelected] = useState(true);
+  const [isActiveSelected, setIsActiveSelected] = useState(false);
+  const [isCompletedSelected, setIsCompletedSelected] = useState(false);
+
+  const [completed_tasks, setCompletedTasks] = useState([]);
   const [task_counter, setTaskCounter] = useState(tasks.length);
   const [filter_items, setFilterItems] = useState([
-    { id: 1, name: "All" },
-    { id: 2, name: "Complete" },
-    { id: 3, name: "Active" },
+    { id: 1, name: "all", status: true },
+    { id: 2, name: "completed", status: false },
+    { id: 3, name: "active", status: false },
   ]);
-
-  console.log(filter_items);
 
   function addTask(task_name) {
     let new_task = { id: uuidv4(), name: task_name.name, completed: false };
@@ -55,20 +59,71 @@ function App(props) {
     });
   }
 
-  const taskList = tasks.map((task) => (
-    <Todo
-      name={task.name}
-      completed={task.completed}
-      id={task.id}
-      key={task.id}
-      toggleTaskCompleted={toggleTaskCompleted}
-      editTask={editTask}
-      deleteTask={deleteTask}
-    />
-  ));
+  let tryy = "try";
+  function getTasksType(name) {
+    let selected_tasks = [];
+
+    tasks.map((task) => {
+      if (name === "completed" && task.completed === true) {
+        console.log(task);
+
+        selected_tasks.push(task);
+        console.log("selected tasks", selected_tasks);
+        setIsAllSelected(false);
+        setIsCompletedSelected(true);
+        console.log("is completed", isCompletedSelected);
+        console.log("is all", isAllSelected);
+        tryy = "new tryy";
+        console.log(tryy);
+      }
+    });
+
+    setCompletedTasks(selected_tasks);
+    console.log("edit", completed_tasks);
+  }
+
+  const taskList =
+    isAllSelected === true
+      ? tasks.map((task) => (
+          <Todo
+            name={task.name}
+            completed={task.completed}
+            id={task.id}
+            key={task.id}
+            toggleTaskCompleted={toggleTaskCompleted}
+            editTask={editTask}
+            deleteTask={deleteTask}
+          />
+        ))
+      : isCompletedSelected === true
+      ? completed_tasks.map((complete_task) => {
+          if (!completed_tasks) {
+            console.log("still running");
+            return <li>No completed tasks</li>;
+            console.log("no completed task");
+          } else {
+            console.log("else state");
+            return (
+              <Todo
+                name={complete_task.name}
+                completed={complete_task.completed}
+                id={complete_task.id}
+                key={complete_task.id}
+                toggleTaskCompleted={toggleTaskCompleted}
+                editTask={editTask}
+                deleteTask={deleteTask}
+              />
+            );
+          }
+        })
+      : isActiveSelected === true
+      ? active_tasks.map((active_task) => {
+          "active tasks";
+        })
+      : "";
 
   const filterButtonList = filter_items.map((item) => (
-    <FilterButton name={item.name} key={item.id} />
+    <FilterButton name={item.name} getTasksType={getTasksType} key={item.id} />
   ));
 
   return (
@@ -80,6 +135,7 @@ function App(props) {
         {task_counter ? task_counter + " " + "tasks remaining" : "No Task"}
       </h2>
 
+      {/* list of tasks  */}
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
