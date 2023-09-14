@@ -79,8 +79,12 @@ function App(props) {
         }
       });
     } else if (name === "all") {
-      setIsAllSelected(true);
       setIsCompletedSelected(false);
+      setIsAllSelected(true);
+    } else if (name === "active") {
+      setIsAllSelected(false);
+      setIsActiveSelected(true);
+      console.log("Acitve selected");
     }
   }
 
