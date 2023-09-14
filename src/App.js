@@ -7,17 +7,15 @@ import FilterButton from "./components/FilterButton";
 
 function App(props) {
   const [tasks, setTask] = useState(props.tasks);
-  const [active_tasks, setActiveTasks] = useState([]);
+  const [completed_tasks, setCompletedTasks] = useState([]);
+
   const [isAllSelected, setIsAllSelected] = useState(true);
-  const [isActiveSelected, setIsActiveSelected] = useState(false);
   const [isCompletedSelected, setIsCompletedSelected] = useState(false);
 
-  const [completed_tasks, setCompletedTasks] = useState([]);
   const [task_counter, setTaskCounter] = useState(tasks.length);
   const [filter_items, setFilterItems] = useState([
     { id: 1, name: "all", status: true },
     { id: 2, name: "completed", status: false },
-    { id: 3, name: "active", status: false },
   ]);
 
   function addTask(task_name) {
@@ -48,8 +46,6 @@ function App(props) {
   }
 
   function deleteTask(id) {
-    console.log("deleted item id", id);
-    console.log(tasks);
     tasks.map((task) => {
       if (id === task.id) {
         let index_of_item_to_delete = tasks.indexOf(task);
@@ -57,6 +53,8 @@ function App(props) {
         setTask([...tasks]);
       }
     });
+
+    setTaskCounter(tasks.length);
   }
 
   function getTasksType(name) {
@@ -75,40 +73,22 @@ function App(props) {
           setCompletedTasks(completed_tasks);
         } else if (completed_tasks.length === 0) {
           //change the state of completed task to reflect the newest set of completed tasks
+          completed_tasks = [];
           setCompletedTasks(completed_tasks);
         }
       });
     } else if (name === "all") {
+      // Change the state of all other filter button to false expect for setIsActiveSelected
       setIsCompletedSelected(false);
       setIsAllSelected(true);
-    } else if (name === "active") {
-      setIsAllSelected(false);
-      setIsActiveSelected(true);
-      console.log("Acitve selected");
     }
   }
 
+  // dynamicly display task list
   const taskList =
-    isAllSelected === true
-      ? tasks.map((task) => (
-          <Todo
-            name={task.name}
-            completed={task.completed}
-            id={task.id}
-            key={task.id}
-            toggleTaskCompleted={toggleTaskCompleted}
-            editTask={editTask}
-            deleteTask={deleteTask}
-          />
-        ))
-      : isCompletedSelected === true
+    isCompletedSelected === true
       ? completed_tasks.map((complete_task) => {
-          // if (complete_task.length < 1) {
-          //   console.log("still running");
-          //   return <li>No completed tasks</li>;
-          //   console.log("no completed task");
-          // }
-          console.log("else state", completed_tasks.length);
+          console.log("CT", completed_tasks);
           return (
             <Todo
               name={complete_task.name}
@@ -121,12 +101,24 @@ function App(props) {
             />
           );
         })
-      : isActiveSelected === true
-      ? active_tasks.map((active_task) => {
-          "active tasks";
+      : isAllSelected === true
+      ? tasks.map((task) => {
+          console.log("TASKS", tasks);
+          return (
+            <Todo
+              name={task.name}
+              completed={task.completed}
+              id={task.id}
+              key={task.id}
+              toggleTaskCompleted={toggleTaskCompleted}
+              editTask={editTask}
+              deleteTask={deleteTask}
+            />
+          );
         })
       : "";
 
+  // dynamicly create filter buttons
   const filterButtonList = filter_items.map((item) => (
     <FilterButton name={item.name} getTasksType={getTasksType} key={item.id} />
   ));
