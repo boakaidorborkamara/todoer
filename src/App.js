@@ -103,7 +103,6 @@ function App(props) {
         })
       : isAllSelected === true
       ? tasks.map((task) => {
-          console.log("TASKS", tasks);
           return (
             <Todo
               name={task.name}
