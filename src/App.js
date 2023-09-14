@@ -59,27 +59,29 @@ function App(props) {
     });
   }
 
-  let tryy = "try";
   function getTasksType(name) {
-    let selected_tasks = [];
+    if (name === "completed") {
+      // save all completed tasks here
+      let completed_tasks = [];
 
-    tasks.map((task) => {
-      if (name === "completed" && task.completed === true) {
-        console.log(task);
+      //loop through all tasks and get only tasks that are completed and save them in completed_tasks array
+      tasks.map((task) => {
+        if (task.completed === true) {
+          completed_tasks.push(task);
+          setIsAllSelected(false);
+          setIsCompletedSelected(true);
 
-        selected_tasks.push(task);
-        console.log("selected tasks", selected_tasks);
-        setIsAllSelected(false);
-        setIsCompletedSelected(true);
-        console.log("is completed", isCompletedSelected);
-        console.log("is all", isAllSelected);
-        tryy = "new tryy";
-        console.log(tryy);
-      }
-    });
-
-    setCompletedTasks(selected_tasks);
-    console.log("edit", completed_tasks);
+          //change the state of completed task to reflect the newest set of completed tasks
+          setCompletedTasks(completed_tasks);
+        } else if (completed_tasks.length === 0) {
+          //change the state of completed task to reflect the newest set of completed tasks
+          setCompletedTasks(completed_tasks);
+        }
+      });
+    } else if (name === "all") {
+      setIsAllSelected(true);
+      setIsCompletedSelected(false);
+    }
   }
 
   const taskList =
@@ -97,24 +99,23 @@ function App(props) {
         ))
       : isCompletedSelected === true
       ? completed_tasks.map((complete_task) => {
-          if (!completed_tasks) {
-            console.log("still running");
-            return <li>No completed tasks</li>;
-            console.log("no completed task");
-          } else {
-            console.log("else state");
-            return (
-              <Todo
-                name={complete_task.name}
-                completed={complete_task.completed}
-                id={complete_task.id}
-                key={complete_task.id}
-                toggleTaskCompleted={toggleTaskCompleted}
-                editTask={editTask}
-                deleteTask={deleteTask}
-              />
-            );
-          }
+          // if (complete_task.length < 1) {
+          //   console.log("still running");
+          //   return <li>No completed tasks</li>;
+          //   console.log("no completed task");
+          // }
+          console.log("else state", completed_tasks.length);
+          return (
+            <Todo
+              name={complete_task.name}
+              completed={complete_task.completed}
+              id={complete_task.id}
+              key={complete_task.id}
+              toggleTaskCompleted={toggleTaskCompleted}
+              editTask={editTask}
+              deleteTask={deleteTask}
+            />
+          );
         })
       : isActiveSelected === true
       ? active_tasks.map((active_task) => {
